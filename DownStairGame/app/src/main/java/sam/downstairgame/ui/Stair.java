@@ -23,14 +23,13 @@ public class Stair {
     Bitmap stair;
 
     // Constructor
-    public Stair(int color, Context c) {
+    public Stair(Context c) {
         mContext = c;
 
         // paint= new Paint();
         //paint.setColor(color);
         stair = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.stair),150,30, false);
-
     }
 
     public void setBounds(int lx, int ly, int ux, int uy,int startX , int startY) {
@@ -41,7 +40,6 @@ public class Stair {
         //starting first in middle
         //random  starting x position, fixed y position
         x = (float) startX;
-
         //((upperX-700)*Math.random());
         y = (float)startY;
     }
@@ -50,7 +48,6 @@ public class Stair {
         x=xx;
         y=yy;
     }
-    //chnage to
     public boolean move(int speed) {
         // Get new (x,y) position. Movement is always in vertical direction upwards
         y += (stepY-speed);
@@ -73,30 +70,14 @@ public class Stair {
     public RectF getRect() {
         return new RectF( x+10, y+50,x+150, y+100);
     }
-    //public RectF getRect() {
-    //       return new RectF( x-150, y-25,x+150, y+25);
-    // }
-    public Rect getRectrect() {
-        return new Rect((int)x,(int)y,(int)x+150,(int)y+50);
-    }
-
-    public float getX() {
-        return x;
-    }
-
 
     public float getY() {
         return y;
     }
 
     public void draw(Canvas canvas) {
-        // canvas.drawLine(x, y - 100, x, y, paint);
-        // canvas.drawRect(x -150, y - 20, x + 150, y+20, paint);
-        //  canvas.drawRect(x - 10, y - 40, x + 10, y, paint);
         //draw on left top
         canvas.drawBitmap(stair, x, y+50, null);
-        //canvas.drawBitmap(stair, x, y+20, null);
-
     }
 
 }

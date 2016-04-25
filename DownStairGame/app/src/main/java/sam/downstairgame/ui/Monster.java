@@ -17,6 +17,8 @@ public class Monster {
     float y =0;
     float stepX = 50; // Cannon's step in  x direction
     float stepY = 15;
+    float accX = 5;
+    float accY = 5;
     int lowerX, lowerY, upperX, upperY;
     //private Paint paint; // The paint style, color used for drawing
     Bitmap monster;
@@ -24,16 +26,14 @@ public class Monster {
     private Context mContext;
 
     // Constructor
-    public Monster(int color, Context c) {
+    public Monster( Context c) {
         mContext = c;
-
-
         // create a bitmap from the supplied image (the image is the icon that is part of the app)
+        //TODO: change the value 50 to scale related
         monster= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.monstertwo),50,50, false);
 
     }
-
 
     public void setBounds(int lx, int ly, int ux, int uy) {
         lowerX = lx;
@@ -48,7 +48,7 @@ public class Monster {
         x = (float) (ux)/2;
         y=lowerY;
     }
-
+    //v= u+at
     public void fall(){
         y+=stepY;
     }
@@ -61,6 +61,7 @@ public class Monster {
             x -= stepX;
         }
     }
+    //end game condition
     public boolean fallout(){
         if(y> upperY+10)
             return true;
@@ -75,21 +76,13 @@ public class Monster {
             x += stepX;
         }
     }
-    // Returns the rectangle enclosing the Guy. Used for collision detection
-    public float getPosition() {
-        return x;
-    }
     public RectF getRect() {
         return new RectF(x,y+50,x+50,y+100);
-    }
-    public Rect getRectrect() {
-        return new Rect((int)x-25,(int)y-25,(int)x+25,(int)y+25);
     }
 
     public float getX() {
         return x;
     }
-
     public float getY() {
         return y;
     }
@@ -99,6 +92,5 @@ public class Monster {
     public void draw(Canvas canvas) {
         // left top
         canvas.drawBitmap(monster, x, y, null);
-
     }
 }
