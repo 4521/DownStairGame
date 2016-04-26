@@ -13,19 +13,20 @@ import sam.downstairgame.R;
  * Created by Fujitsu on 24/4/2016.
  */
 public class Stair {
-    float x; // Stair top left corner (x,y)
-    float y;
-    float stepX = 10; // Guy's step in (x,y) direction
-    float stepY = -5;// gives speed of motion, larger means faster speed
-    int lowerX, lowerY, upperX, upperY; // boundaries
-    private Context mContext;
+   protected float x; // Stair top left corner (x,y)
+    protected float y;
+    protected float stepX = 10; // Guy's step in (x,y) direction
+    protected  float stepY = -15;// gives speed of motion, larger means faster speed
+    protected int lowerX, lowerY, upperX, upperY; // boundaries
+    protected Context mContext;
     // private Paint paint; // The paint style, color used for drawing
     Bitmap stair;
 
     // Constructor
-    public Stair(Context c) {
+    public Stair(Context c,float sety) {
         mContext = c;
-
+        x=0;
+        y=sety;
         // paint= new Paint();
         //paint.setColor(color);
         stair = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
@@ -44,22 +45,22 @@ public class Stair {
         y = (float)startY;
     }
     public int getUpperX(){return upperX;}
-    public void setXY(int xx, int yy){
-        x=xx;
-        y=yy;
+    public void setXY(float xp, float yp){
+        x=xp;
+        y= yp;
     }
-    public boolean move(int speed) {
+    public boolean move() {
         // Get new (x,y) position. Movement is always in vertical direction upwards
-        y += (stepY-speed);
+        y += (stepY);
         // Detect when the guy reaches the bottom of the screen
         // restart at a random location at the top of the screen
-        if (y +50 < 0) {
-            x = (float) ((upperX-155)*Math.random());
-            y =upperY;
-            return true;
-        }
-        else
-            return true;
+//        if (y +50 < 0) {
+//            x = (float) ((upperX-155)*Math.random());
+//            y =upperY;
+//            return true;
+//        }
+//        else
+         return true;
     }
     // When you reset, starts the Android Guy from a random X co-ordinate location
     // at the top of the screen again

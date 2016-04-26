@@ -22,7 +22,6 @@ public class Monster {
     int lowerX, lowerY, upperX, upperY;
     //private Paint paint; // The paint style, color used for drawing
     Bitmap monster;
-
     private Context mContext;
 
     // Constructor
@@ -32,15 +31,12 @@ public class Monster {
         //TODO: change the value 50 to scale related
         monster= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.monstertwo),50,50, false);
-
     }
-
     public void setBounds(int lx, int ly, int ux, int uy) {
         lowerX = lx;
         lowerY = ly;
         upperX = ux;
         upperY = uy;
-
         if (x < 0 && y < 0) {
             x = ux/2;
             y = uy;
@@ -51,8 +47,8 @@ public class Monster {
     //v= u+at
     public void fall(){
         y+=stepY;
+       // y+=accY;
     }
-
     public void moveLeft() {
         // Get new (x,y) position of the canvas by moving it left
         // when the left button is clicked. Ensure that it does not
