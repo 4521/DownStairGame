@@ -15,7 +15,7 @@ import sam.downstairgame.R;
 public class Monster {
     float x = 50; // Cannon's center (x,y)
     float y =0;
-    float stepX = 50; // Cannon's step in  x direction
+    float stepX =20;
     float stepY = 15;
     float accX = 5;
     float accY = 5;

@@ -19,7 +19,6 @@ public class BlackStair extends Stair {
     // Constructor
     public BlackStair(Context c, float sety) {
         super(c, sety);
-
         // paint= new Paint();
         //paint.setColor(color);
         stair = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),

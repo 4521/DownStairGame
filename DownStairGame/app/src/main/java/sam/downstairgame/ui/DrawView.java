@@ -19,7 +19,7 @@ import sam.downstairgame.R;
  * Created by Fujitsu on 24/4/2016.
  */
 public class DrawView extends View {
-
+    //in this game, treat one score as time
     private int width, height, type;
     boolean end;
     Context mContext;

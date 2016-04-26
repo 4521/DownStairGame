@@ -13,10 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class GameAct extends AppCompatActivity implements View.OnClickListener {
+public class GameAct extends AppCompatActivity {
 
     private ImageButton moveLeftButton, moveRightButton;
     private DrawView drawView;
@@ -28,28 +29,29 @@ public class GameAct extends AppCompatActivity implements View.OnClickListener {
 
         drawView = (DrawView) findViewById(R.id.drawView);
         moveLeftButton = (ImageButton) findViewById(R.id.moveLeftButton);
-        moveLeftButton.setOnClickListener(this);
+        //moveLeftButton.setOnClickListener(this);
         moveRightButton = (ImageButton) findViewById(R.id.moveRightButton);
-        moveRightButton.setOnClickListener(this);
+        //moveRightButton.setOnClickListener(this);
 
+        moveRightButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
-    }
-
-    public void onClick(View v) {
-
-        // Using the View's ID to distinguish which button was clicked
-        switch (v.getId()) {
-
-            case R.id.moveLeftButton:
-                drawView.moveMonsterLeft();
-                break;
-
-            case R.id.moveRightButton:
+                // Do what you want
                 drawView.moveMonsterRight();
-                break;
+                return true;
+                //  return false;
+            }
+        });
+        moveLeftButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
-            default:
-                break;
-        }
+                // Do what you want
+                drawView.moveMonsterLeft();
+                return true;
+                //  return false;
+            }
+        });
     }
 }
