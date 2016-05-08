@@ -4,16 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.hardware.Camera;
-import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
-
-import java.util.ArrayList;
-
-import sam.downstairgame.R;
 
 /**
  * Created by Fujitsu on 24/4/2016.
@@ -21,26 +14,32 @@ import sam.downstairgame.R;
 public class DrawView extends View {
     //in this game, treat one score as time
     private int width, height, type;
-    boolean end;
+    boolean gameOver;
     Context mContext;
     Monster monster;
     float xPost;
     Stair s[] = new Stair[5];
     Stair stairType[][] = new Stair[2][5];
     Score score;
+    float monsterAddYVelocity;
+    float stairAddYVelocity;
+    float referenceSpeedForStair;
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        end = false;
+        gameOver = false;
         mContext = context;
+        monsterAddYVelocity = 0;
+        referenceSpeedForStair=-10;
+        stairAddYVelocity = 0;
         type = 0;
-        for(int i= 0; i< 5; i++) {
+        for (int i = 0; i < 5; i++) {
             stairType[0][i] = new Stair(mContext, height);
         }
-        for(int i= 0; i< 5; i++) {
+        for (int i = 0; i < 5; i++) {
             stairType[1][i] = new BlackStair(mContext, height);
         }
-       // stairType = new Stair[]
+        // stairType = new Stair[]
         for (int i = 0; i < 5; i++) {
             type = (int) (Math.random() * 10);
             if (type > 5)
@@ -57,30 +56,20 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawGameBoard(canvas);
-
-        end = monster.fallout();
+        monsterAddYVelocity += 5;
+        gameOver = monster.fallout();
         try {
             Thread.sleep(30);
         } catch (InterruptedException e) {
         }
-        // A call to invalidate causes the Android framework to call the onDraw
-        // method of the DrawView
-        // Thus every time the screen is refreshed, the framework is again
-        // forced to call the onDraw
-        // method. This creates the animation on the screen to simulate the game
-        // playing
-
-        if (!end)
+        if (!gameOver)
             invalidate();
         else {
-            end = false;
+            gameOver = false;
             // TODO: Go back Home or Restart code hrere
-            // Intent i = new Intent(getContext(), PauseActivity.class);
-            //  getContext().startActivity(i);
+            Intent i = new Intent(getContext(), PauseAct.class);
+            getContext().startActivity(i);
         }
-    }
-    public boolean getEnd() {
-        return end;
     }
 
     @Override
@@ -103,7 +92,7 @@ public class DrawView extends View {
 
     public void drawGameBoard(Canvas canvas) {
         //Background color
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.rgb(183, 255, 252));
         monster.draw(canvas);
         score.draw(canvas);
 
@@ -111,43 +100,41 @@ public class DrawView extends View {
             if (s[i] != null)
                 s[i].draw(canvas);
         }
-        //end game condition
-        // if (y +50 < 0) {
-        //  x = (float) ((upperX-155)*Math.random());
-        //   y =upperY;
-        //}
         for (int i = 0; i < 5; i++) {
-            if (!s[i].move()) {
-                s[i] = null;
-                break;
-            }
+            s[i].moveWith((float)(-10+(-0.2)*(score.getScore())));
         }
         monster.fall();
+        monster.addVelocity(monsterAddYVelocity);
+        //score.getscore();
         //check stand
         for (int i = 0; i < 5; i++) {
             if (RectF.intersects(monster.getRect(), s[i].getRect())) {
                 // if (Rect.intersects(monster.getRectrect(), stair.getRectrect()))
                 monster.setY(s[i].getY());
+                //reset initital y-velocity if stand on stair
+                monsterAddYVelocity = 0;
             }
         }
         type = (int) (Math.random() * 10);
         xPost = (float) ((width - 155) * Math.random());
+        //add score and generate new stair when one stair go out of screen
         for (int i = 0; i < 5; i++) {
-           if (s[i].getY() + 50 < 0) {
-               score.incrementScore();
-                s[i] = null;
+            if (s[i].getY() + 50 < 0) {
+                score.incrementScore();
+               // s[i] = null;
                 if (type > 5) {
-                   s[i] = stairType[0][i];
+                    s[i] = stairType[0][i];
                     s[i].setXY(xPost, height);
                     break;
-               } else {
+                } else {
                     s[i] = stairType[1][i];
                     s[i].setXY(xPost, height);
                     break;
                 }
-          }
 
-      }
+            }
+
+        }
     }
 
     public void moveMonsterLeft() {

@@ -15,13 +15,11 @@ import sam.downstairgame.R;
 public class Stair {
    protected float x; // Stair top left corner (x,y)
     protected float y;
-    protected float stepX = 10; // Guy's step in (x,y) direction
-    protected  float stepY = -15;// gives speed of motion, larger means faster speed
+    protected  float stepY = -20;// gives speed of motion, larger means faster speed
     protected int lowerX, lowerY, upperX, upperY; // boundaries
     protected Context mContext;
     // private Paint paint; // The paint style, color used for drawing
     Bitmap stair;
-
     // Constructor
     public Stair(Context c,float sety) {
         mContext = c;
@@ -29,6 +27,7 @@ public class Stair {
         y=sety;
         // paint= new Paint();
         //paint.setColor(color);
+        //TODO: scale related size
         stair = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.stair),150,30, false);
     }
@@ -49,25 +48,11 @@ public class Stair {
         x=xp;
         y= yp;
     }
-    public boolean move() {
-        // Get new (x,y) position. Movement is always in vertical direction upwards
-        y += (stepY);
-        // Detect when the guy reaches the bottom of the screen
-        // restart at a random location at the top of the screen
-//        if (y +50 < 0) {
-//            x = (float) ((upperX-155)*Math.random());
-//            y =upperY;
-//            return true;
-//        }
-//        else
-         return true;
+    public void moveWith(float speed){
+        stepY = speed;
+        y+= speed;
     }
-    // When you reset, starts the Android Guy from a random X co-ordinate location
-    // at the top of the screen again
-    public void reset() {
-        x = (float) ((upperX-155)*Math.random());
-        y = upperY;
-    }
+
     public RectF getRect() {
         return new RectF( x+10, y+50,x+150, y+100);
     }

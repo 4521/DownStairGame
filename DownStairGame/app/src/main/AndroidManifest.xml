@@ -18,7 +18,14 @@
         <activity android:name=".ui.HomeAct" />
         <activity android:name=".ui.GameAct" />
         <activity android:name=".ui.SettingAct" />
-        <activity android:name=".ui.RankingAct"></activity>
+        <activity android:name=".ui.RankingAct" />
+        <activity android:name=".ui.PauseAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
